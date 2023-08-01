@@ -31,7 +31,6 @@ public class SignupController {
         if (!userService.isUsernameAvailable(user.getUsername())) {
             signupError = "The username already exists.";
         }
-        System.out.println(user.getUsername());
         if (signupError == null) {
             int rowsAdded = userService.createUser(user);
             if (rowsAdded < 0) {
@@ -41,8 +40,10 @@ public class SignupController {
 
         if (signupError == null) {
             model.addAttribute("signupSuccess", true);
+            System.out.println("signupSuccess");
         } else {
             model.addAttribute("signupError", signupError);
+            System.out.println("signupError");
         }
 
         return "signup";

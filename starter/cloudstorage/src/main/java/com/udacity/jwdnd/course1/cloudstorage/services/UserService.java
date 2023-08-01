@@ -31,5 +31,11 @@ public class UserService {
         String hashedPassword = hashService.getHashedValue(user.getPassword(), encodedSalt);
         return userMapper.insert(new User(null, user.getUsername(), encodedSalt, hashedPassword, user.getFirstName(), user.getLastName()));
     }
+    public User selectByName(String username) {
+        return userMapper.selectByName(username);
+    }
 
+    public User selectById(Integer userId) {
+        return userMapper.selectById(userId);
+    }
 }
