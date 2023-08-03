@@ -27,14 +27,17 @@ public class FileController {
     public String insert(@RequestParam("fileUpload") MultipartFile multipartFile, Authentication authentication) {
 
         User user = userService.selectByName(authentication.getName());
+        if (multipartFile.isEmpty()) {
+            return "redirect:/result?error&message=The file is empty,please select a file";
+        }
         File file = fileService.create(multipartFile, user);
 
         Boolean status = fileService.insert(file);
 
         if (status) {
-            return "redirect:/success?success&message=The file is uploaded";
+            return "redirect:/result?success&message=The file is uploaded";
         } else {
-            return "redirect:/failure?error&message=The file can not be uploaded";
+            return "redirect:/result?error&message=The file can not be uploaded";
         }
 
     }
@@ -60,7 +63,7 @@ public class FileController {
         if (status) {
             return "redirect:/result?success&message=The file is deleted";
         } else {
-            return "redirect>/result?error&message=The file can not be deleted";
+            return "redirect:/result?error&message=The file can not be deleted";
         }
     }
 
