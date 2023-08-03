@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller()
 @RequestMapping("/signup")
 public class SignupController {
@@ -23,9 +23,11 @@ public class SignupController {
     public String signupView() {
         return "signup";
     }
+    // Get time to sleep
+
 
     @PostMapping()
-    public String signupUser(@ModelAttribute User user, Model model) {
+    public String signupUser(@ModelAttribute User user, Model model, RedirectAttributes redirectAttributes) {
         String signupError = null;
 
         if (!userService.isUsernameAvailable(user.getUsername())) {
@@ -40,8 +42,11 @@ public class SignupController {
 
         if (signupError == null) {
             model.addAttribute("signupSuccess", true);
-            System.out.println("signupSuccess");
-//            return "redirect:/login";
+            redirectAttributes.addFlashAttribute("signupSuccess", true);
+//                System.out.println("===> signup success watting 2 second start");
+//                Thread.sleep(5000);
+//                System.out.println("===> signup success watting 2 second done");
+            return "redirect:/login";
         } else {
             model.addAttribute("signupError", signupError);
             System.out.println("signupError");
